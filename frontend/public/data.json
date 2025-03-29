@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Restaurant 1",
+        "address": "123 Main St, Cityville",
+        "url": "http://example.com/restaurant1",
+        "hour": "9:00 AM - 10:00 PM",
+        "price": 20,   
+        "distance": 2.5
+    },
+    {
+        "name": "Restaurant 2",
+        "address": "456 Elm St, Townsville",
+        "url": "http://example.com/restaurant2",
+        "hour": "10:00 AM - 11:00 PM",
+        "price": 25,   
+        "distance": 3.0
+    },
+    {
+        "name": "Restaurant 3",
+        "address": "789 Oak St, Villageburg",
+        "url": "http://example.com/restaurant3",
+        "hour": "11:00 AM - 12:00 AM",
+        "price": 30,   
+        "distance": 4.0
+    },
+    {
+        "name": "Restaurant 4",
+        "address": "101 Pine St, Hamletville",
+        "url": "http://example.com/restaurant4",
+        "hour": "12:00 PM - 1:00 AM",
+        "price": 35,   
+        "distance": 5.0
+    },
+    {
+        "name": "Restaurant 5",
+        "address": "202 Maple St, Citytown",
+        "url": "http://example.com/restaurant5",
+        "hour": "1:00 PM - 2:00 AM",
+        "price": 40,   
+        "distance": 6.0
+    },
+    {
+        "name": "Restaurant 6",
+        "address": "303 Birch St, Metropolis",
+        "url": "http://example.com/restaurant6",
+        "hour": "2:00 PM - 3:00 AM",
+        "price": 45,   
+        "distance": 7.0
+    }
+]
