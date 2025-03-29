@@ -1,17 +1,40 @@
 <script setup>
+import { onMounted, ref } from "vue";
 const route = useRoute();
-console.log(typeof route.params.query);
 const query = route.params.query;
-const results = getResults(query);
+
+const latitude = ref(null);
+const longitude = ref(null);
+
+const getUserLocation = () => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      latitude.value = position.coords.latitude;
+      longitude.value = position.coords.longitude;
+    },
+    (error) => {
+      console.error("Error getting location:", error);
+    }
+  );
+};
+
+// Call the function when the component is mounted
+onMounted(() => {
+  getUserLocation();
+});
 </script>
 <template>
   <div class="grid-flow-row">
-    <div>
-      <card
-        v-for="result in results"
-        :name="result.name"
-        :price="result.price"
-      />
+    <p class="text-center text-2xl font-bold mb-4">
+      Search results for: {{ query }}
+    </p>
+    <div v-if="latitude && longitude" class="text-center">
+      <p>Your location:</p>
+      <p>Latitude: {{ latitude }}</p>
+      <p>Longitude: {{ longitude }}</p>
+    </div>
+    <div v-else class="text-center">
+      <p>Fetching your location...</p>
     </div>
   </div>
 </template>
