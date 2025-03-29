@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <p>Some default layout content shared across all pages</p>
+  <div class="bg-black min-h-screen text-white">
     <slot />
   </div>
 </template>
