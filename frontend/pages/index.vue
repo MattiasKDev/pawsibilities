@@ -13,6 +13,15 @@
         @keyup.enter="fetchResults"
       />
     </div>
+
+    <!-- Loading Animation -->
+    <div
+      v-if="searchActivated && !loading"
+      class="absolute inset-0 flex justify-center items-center"
+    >
+      <div class="loader"></div>
+    </div>
+
     <div
       class="grid grid-cols-2 grid-rows-2 gap-4 col-start-2 col-end-5 row-start-3 row-end-6"
     >
@@ -20,6 +29,7 @@
         class="grid-item"
         v-if="loading"
         v-for="result in results"
+        :key="result.name"
         :name="result.name"
         :address="result.address"
         :url="result.website"
@@ -47,6 +57,7 @@ export default {
     async fetchResults() {
       if (this.searchQuery.trim()) {
         this.searchActivated = true;
+        this.loading = false; // Ensure loading is false initially
         const url = "http://159.89.117.226:8080/data";
         const res = await useFetch(url, {
           method: "POST",
@@ -61,12 +72,7 @@ export default {
         });
         console.log("Response:", res);
         this.results = res;
-        // const url =
-        //   "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
-        // const res = await $fetch(url);
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
-        // this.results = JSON.parse(res);
-        this.loading = true;
+        this.loading = true; // Set loading to true when results are ready
       }
     },
   },
@@ -75,7 +81,6 @@ export default {
     const getGeolocation = async () => {
       try {
         const response = await useFetch("http://ip-api.com/json/");
-        //const data = await response.json();
         const data = response.data.value;
         console.log("Latitude:", data.lat);
         this.lat = data.lat;
@@ -97,6 +102,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .grid {
   gap: 1rem; /* Adjust spacing between items */
@@ -118,5 +124,24 @@ export default {
 
 input {
   transition: grid-row-start 0.3s ease-in-out, grid-row-end 0.5s ease-in-out;
+}
+
+/* Loader Animation */
+.loader {
+  border: 8px solid #f3f3f3; /* Light gray */
+  border-top: 8px solid #4caf50; /* Green */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
