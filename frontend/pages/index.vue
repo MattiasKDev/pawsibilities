@@ -48,7 +48,7 @@ export default {
       if (this.searchQuery.trim()) {
         this.searchActivated = true;
         const url = "http://159.89.117.226:8080/data";
-        const res = await $fetch(url, {
+        const res = await useFetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -74,8 +74,9 @@ export default {
   created() {
     const getGeolocation = async () => {
       try {
-        const response = await fetch("http://ip-api.com/json/");
-        const data = await response.json();
+        const response = await useFetch("http://ip-api.com/json/");
+        //const data = await response.json();
+        const data = response.data.value;
         console.log("Latitude:", data.lat);
         this.lat = data.lat;
         console.log("Longitude:", data.lon);
