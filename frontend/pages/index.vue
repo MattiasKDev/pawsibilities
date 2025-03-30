@@ -47,18 +47,20 @@ export default {
     async fetchResults() {
       if (this.searchQuery.trim()) {
         this.searchActivated = true;
-        const url = "http://192.168.0.167:8000/data";
-        const res = await $fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query: this.searchQuery, lat: 0, lon: 0 }),
-        });
-        console.log("Response:", res);
-        this.results = res;
-        console.log(this.results);
-        console.log(this.results[0].name);
+        // const url = "http://192.168.0.167:8000/data";
+        // const res = await $fetch(url, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ query: this.searchQuery, lat: 0, lon: 0 }),
+        // });
+        // console.log("Response:", res);
+        // this.results = res;
+        const url =
+          "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
+        const res = await $fetch(url);
+        this.results = JSON.parse(res);
         this.loading = true;
       }
     },
