@@ -1,21 +1,20 @@
 <template>
-  <div class="grid grid-cols-5 grid-rows-5 gap-4 min-h-screen">
+  <div class="grid grid-cols-5 grid-rows-6 gap-4 min-h-screen relative">
     <div
-      :style="{
-        transform: searchActivated ? 'translateY(-40vh)' : 'translateY(0)',
-      }"
-      class="transition-transform duration-1000 ease-in-out col-start-2 col-end-5 row-start-3 self-center"
+      class="absolute left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-in-out text-center flex flex-col items-center"
+      :style="inputPositionStyle"
     >
+      <p class="text-4xl font-bold text-green-600 mb-4">Pawsibilities</p>
       <input
         v-model="searchQuery"
-        class="w-full bg-white text-gray-800 rounded-full px-6 py-3 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+        class="w-96 bg-white text-gray-800 rounded-full px-6 py-3 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
         type="text"
         placeholder="Type to search..."
         @keyup.enter="fetchResults"
       />
     </div>
     <div
-      class="grid grid-cols-3 grid-rows-2 gap-4 col-start-2 col-end-5 row-start-2"
+      class="grid grid-cols-2 grid-rows-2 gap-4 col-start-2 col-end-5 row-start-3 row-end-6"
     >
       <card
         class="grid-item"
@@ -23,10 +22,9 @@
         v-for="result in results"
         :name="result.name"
         :address="result.address"
-        :url="result.url"
-        :hour="result.hour"
+        :url="result.website"
+        :hour="result.hours"
         :price="result.price"
-        :distance="result.distance"
       />
     </div>
   </div>
@@ -60,6 +58,7 @@ export default {
         const url =
           "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
         const res = await $fetch(url);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         this.results = JSON.parse(res);
         this.loading = true;
       }
@@ -79,6 +78,13 @@ export default {
     };
 
     getGeolocation();
+  },
+  computed: {
+    inputPositionStyle() {
+      return {
+        top: this.searchActivated ? "10%" : "50%", // Moves from 50% to 10% of the screen height
+      };
+    },
   },
 };
 </script>
