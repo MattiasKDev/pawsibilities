@@ -1,12 +1,19 @@
 <template>
-  <div class="grid grid-cols-5 grid-rows-5" grid-gap-4 min-h-screen>
-    <input
-      v-model="searchQuery"
-      class="grid-item col-start-2 col-end-5 row-start-1 rounded-full text-black px-4 py-2"
-      type="text"
-      placeholder="Type to search..."
-      @keyup.enter="fetchResults"
-    />
+  <div class="grid grid-cols-5 grid-rows-5 gap-4 min-h-screen">
+    <div
+      :style="{
+        transform: searchActivated ? 'translateY(-40vh)' : 'translateY(0)',
+      }"
+      class="transition-transform duration-1000 ease-in-out col-start-2 col-end-5 row-start-3 self-center"
+    >
+      <input
+        v-model="searchQuery"
+        class="w-full bg-white text-gray-800 rounded-full px-6 py-3 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+        type="text"
+        placeholder="Type to search..."
+        @keyup.enter="fetchResults"
+      />
+    </div>
     <div
       class="grid grid-cols-3 grid-rows-2 gap-4 col-start-2 col-end-5 row-start-2"
     >
@@ -90,5 +97,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+input {
+  transition: grid-row-start 0.3s ease-in-out, grid-row-end 0.5s ease-in-out;
 }
 </style>
