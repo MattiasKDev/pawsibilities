@@ -53,7 +53,7 @@ async def run_scraper(keyword, long, lat):
     start_time = time.time()
         
     agent = Agent(
-        task = """Grab the following information for first 4 places: name, address, hours, pricing(Estimate price if not shown on there), website(grab website from the website button)""",
+        task = """Grab the following information for first 4 places: name, address, hours, pricing(DIsplay pricing using '$' symbol, you may guess if not avaiable), website(grab website from the website button)""",
         llm=llm, browser=browser, initial_actions=initial_actions, controller=controller,
     )
     await agent.run()
