@@ -1,12 +1,17 @@
-from pydantic import SecretStr, BaseModel
+import asyncio
+import json
+import os
+import time  # Import the time module
 from typing import Optional
-import os, json
-from browser_use import Agent, Controller, ActionResult, BrowserConfig, Browser
+
+from browser_use import ActionResult, Agent, Browser, BrowserConfig, Controller
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-import asyncio
-import time  # Import the time module
+from playwright.async_api import async_playwright
+from pydantic import BaseModel, SecretStr
+
 from getAddress import get_address
+
 
 async def run_scraper(keyword, long, lat):
     location = get_address(lat, long)
@@ -32,12 +37,17 @@ async def run_scraper(keyword, long, lat):
 
     controller = Controller(output_model=Places)
 
-    # Browser configuration (Make headless True for production)
-    browser = Browser(
-        config=BrowserConfig(
-            headless=True,
-        )
+    browser = await p.chromium.launch(
+        executable_path=os.environ.get('CHROMIUM_EXECUTABLE_PATH') or '',
+        args=[
+            '--single-process',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--headless=new'  # Use new headless mode
+        ]
     )
+
 
     # Construct a valid Google Maps search URL
     google_maps_base_url = "https://www.google.com/maps/search/"
