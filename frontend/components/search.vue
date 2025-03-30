@@ -12,15 +12,18 @@
 export default{
     data() {
     return {
-      searchQuery: "",
+      searchQuery: '',
     };
   },
   methods: {
     goToResults() {
-      if (this.searchQuery.trim()) {
-        this.$router.push(`/results/${encodeURIComponent(this.searchQuery)}`);
-      }
+    //   if (this.searchQuery.trim()) {
+    //     this.$router.push(`/results/${encodeURIComponent(this.searchQuery)}`);
+    //   }
+        this.$emit('search', this.searchQuery);
+
     },
+
   },
 }
 </script>
