@@ -1,7 +1,9 @@
+import asyncio
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
 from browser import run_scraper
-import asyncio
 
 # from browser import Browser  # Assuming browser.py contains a class named Browser
 
@@ -62,4 +64,4 @@ async def get_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(debug=True)

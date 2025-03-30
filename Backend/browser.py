@@ -7,7 +7,6 @@ from typing import Optional
 from browser_use import ActionResult, Agent, Browser, BrowserConfig, Controller
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-from playwright.async_api import async_playwright
 from pydantic import BaseModel, SecretStr
 
 from getAddress import get_address
@@ -37,17 +36,12 @@ async def run_scraper(keyword, long, lat):
 
     controller = Controller(output_model=Places)
 
-    browser = await p.chromium.launch(
-        executable_path=os.environ.get('CHROMIUM_EXECUTABLE_PATH') or '',
-        args=[
-            '--single-process',
-            '--no-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--headless=new'  # Use new headless mode
-        ]
+    # Browser configuration (Make headless True for production)
+    browser = Browser(
+        config=BrowserConfig(
+            headless=True,
+        )
     )
-
 
     # Construct a valid Google Maps search URL
     google_maps_base_url = "https://www.google.com/maps/search/"
