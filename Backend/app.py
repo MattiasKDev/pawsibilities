@@ -9,6 +9,11 @@ from browser import run_scraper
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def index():
+    return "hello world"
+
 @app.route('/data', methods=['POST'])
 async def get_data():
 #     return [
