@@ -39,27 +39,33 @@ export default {
       searchActivated: false, // New state to track animation
       results: [], // New state to store results
       loading: false,
+      long: 0,
+      lat: 0,
     };
   },
   methods: {
     async fetchResults() {
       if (this.searchQuery.trim()) {
         this.searchActivated = true;
-        // const url = "http://192.168.0.167:8000/data";
-        // const res = await $fetch(url, {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({ query: this.searchQuery, lat: 0, lon: 0 }),
-        // });
-        // console.log("Response:", res);
-        // this.results = res;
-        const url =
-          "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
-        const res = await $fetch(url);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        this.results = JSON.parse(res);
+        const url = "http://159.89.117.226:8080/data";
+        const res = await $fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+            lat: this.lat,
+            long: this.long,
+          }),
+        });
+        console.log("Response:", res);
+        this.results = res;
+        // const url =
+        //   "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
+        // const res = await $fetch(url);
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
+        // this.results = JSON.parse(res);
         this.loading = true;
       }
     },
@@ -71,7 +77,9 @@ export default {
         const response = await fetch("http://ip-api.com/json/");
         const data = await response.json();
         console.log("Latitude:", data.lat);
+        this.lat = data.lat;
         console.log("Longitude:", data.lon);
+        this.long = data.lon;
       } catch (error) {
         console.error("Error fetching geolocation from IP-API:", error.message);
       }
