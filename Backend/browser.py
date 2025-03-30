@@ -35,7 +35,7 @@ async def run_scraper(keyword, long, lat):
     # Browser configuration (Make headless True for production)
     browser = Browser(
         config=BrowserConfig(
-            headless=False,
+            headless=True,
         )
     )
 
@@ -53,7 +53,7 @@ async def run_scraper(keyword, long, lat):
     start_time = time.time()
         
     agent = Agent(
-        task = """Grab the following information for first 6 places: name, address, hours, pricing(Estimate price if not shown on there), website(grab website from the website button)""",
+        task = """Grab the following information for first 4 places: name, address, hours, pricing(Estimate price if not shown on there), website(grab website from the website button)""",
         llm=llm, browser=browser, initial_actions=initial_actions, controller=controller,
     )
     await agent.run()
@@ -77,34 +77,3 @@ async def run_scraper(keyword, long, lat):
     duration = end_time - start_time
     print(f"\nTime taken to grab all information: {duration:.2f} seconds")
     return result["places"]
-
-# async def main():
-#     # Record the start time
-#     start_time = time.time()
-    
-#     agent = Agent(
-# 		task = """Grab the following information for first 6 places: name, address, hours, pricing(Estimate price if not shown on there), website(grab website from the website button)""",
-#           llm=llm, browser=browser, initial_actions=initial_actions, controller=controller,
-# 	)
-#     await agent.run()
-    
-#     # Run the agent
-#     history = await agent.run(max_steps=5)
-#     result = json.loads(history.final_result())
-
-
-#     # Print results
-#     for v in result["places"]:
-#         print('\n--------------------------------')
-#         print(f'Title:            {v["name"]}')
-#         print(f'URL:              {v["website"]}')
-#         print(f'Address:          {v["address"]}')
-#         print(f'Hours:            {v["hours"]}')
-#         print(f'Pricing:          {v["pricing"]}')
-    
-#     # Record the end time and calculate the duration
-#     end_time = time.time()
-#     duration = end_time - start_time
-#     print(f"\nTime taken to grab all information: {duration:.2f} seconds")
-
-# asyncio.run(main())
