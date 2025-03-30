@@ -1,4 +1,8 @@
-import requests
+import requests, os
+from dotenv import load_dotenv
+
+load_dotenv()
+key = os.getenv("MAPS_API_KEY")
 
 def get_address(lat: float, lon: float) -> str:
     """
@@ -11,7 +15,7 @@ def get_address(lat: float, lon: float) -> str:
     Returns:
         str: A formatted string containing the house number, road, and postal code, or an error message.
     """
-    api_url = f"https://geocode.maps.co/reverse?lat={lat}&lon={lon}&api_key=67e8c6b94dbfc359757170qsm784245"
+    api_url = f"https://geocode.maps.co/reverse?lat={lat}&lon={lon}&api_key={key}"
     
     try:
         response = requests.get(api_url)
