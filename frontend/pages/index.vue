@@ -40,10 +40,16 @@ export default {
     async fetchResults() {
       if (this.searchQuery.trim()) {
         this.searchActivated = true;
-        const url =
-          "https://raw.githubusercontent.com/MattiasKDev/pawsibilities/refs/heads/main/frontend/public/data.json";
-        const res = await $fetch(url);
-        this.results = JSON.parse(res);
+        const url = "http://192.168.0.167:8000/data";
+        const res = await $fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query: this.searchQuery, lat: 0, lon: 0 }),
+        });
+        console.log("Response:", res);
+        this.results = res;
         console.log(this.results);
         console.log(this.results[0].name);
         this.loading = true;
@@ -53,18 +59,13 @@ export default {
 
   created() {
     const getGeolocation = async () => {
-      if (navigator.geolocation) {
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-          });
-          console.log("Latitude:", position.coords.latitude);
-          console.log("Longitude:", position.coords.longitude);
-        } catch (error) {
-          console.error("Error getting geolocation:", error.message);
-        }
-      } else {
-        console.error("Geolocation is not supported by this browser.");
+      try {
+        const response = await fetch("http://ip-api.com/json/");
+        const data = await response.json();
+        console.log("Latitude:", data.lat);
+        console.log("Longitude:", data.lon);
+      } catch (error) {
+        console.error("Error fetching geolocation from IP-API:", error.message);
       }
     };
 
